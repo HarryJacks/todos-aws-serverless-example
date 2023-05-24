@@ -1,0 +1,65 @@
+service: todos-service-example
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: eu-west-2
+  environment:
+    DYNAMODB_TABLE: ${sls:stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan  
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+functions:
+  write:
+    handler: handler.write
+    events:
+      - http:
+          path: /todos
+          method: post
+          cors: true
+  read:
+    handler: handler.read
+    events:
+      - http:
+          path: /todos
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    TodosDynamoDbTable: 
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Delete
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+
+custom:
+  dynamodb:
+    stages:
+      - dev
+      - local
+    start:
+      migrate: true

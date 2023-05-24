@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "serverless-dynamodb-local": "^0.2.35",
+    "serverless-offline": "^12.0.4"
+  },
+  "scripts": {
+    "local": "serverless offline start --stage dev",
+    "create-table": "node create-table.js",
+    "list-tables": "chmod +x ./list-tables.sh && ./list-tables.sh",
+    "deploy": "serverless deploy --stage dev",
+    "delete": "serverless remove --stage dev --region eu-west-2"
+  },
+  "dependencies": {
+    "uuid": "^9.0.0"
+  }
+}
