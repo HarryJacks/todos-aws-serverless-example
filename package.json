@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "serverless": "^3.31.0",
     "serverless-dynamodb-local": "^0.2.35",
     "serverless-offline": "^12.0.4"
   },
@@ -11,6 +12,7 @@
     "delete": "serverless remove --stage dev --region eu-west-2"
   },
   "dependencies": {
+    "aws-sdk": "^2.1383.0",
     "uuid": "^9.0.0"
   }
 }

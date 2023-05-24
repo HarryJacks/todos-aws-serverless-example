@@ -17,9 +17,11 @@ This is an example of a Serverless congifuration for PUT and GET AWS lambda func
 
 ### Hitting the endpoints locally (For Linux or use Postman instead)
 
-1. GET `curl http://localhost:3000/dev/todos`. Should return an empty array before any post.
+1. You will need to run `aws configure` with your AWS details.
 
-2. POST `curl -X POST http://localhost:3000/dev/todos -H "Content-Type: application/json" -d '{"text": "Example text"}'`.
+2. GET `curl http://localhost:3000/dev/todos`. Should return an empty array before any post.
+
+3. POST `curl -X POST http://localhost:3000/dev/todos -H "Content-Type: application/json" -d '{"text": "Example text"}'`.
 
 ### Weird issue using DynamoDB locally
 
@@ -29,4 +31,6 @@ To get around this issue make the following changes:
 
 2. Change all references of `http` in here: `/home/harry/projects/aws-serverless-example/todos-example/node_modules/dynamodb-localhost/dynamodb/installer.js` to be `https`.
 
-3. Then you should be able to install the DynamoDB local dependency.
+3. Then you should be able to successfully run `npx sls dynamodb install`.
+
+4. You will also need to install the Java Rumtime > v6. I used: `sudo apt install openjdk-11-jre-headless`.
